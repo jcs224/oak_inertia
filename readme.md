@@ -25,7 +25,7 @@ new Inertia(app, `
 <body>
   @inertia
 </body>
-</html>`)
+</html>`, Deno.env.get('optional_version_string'))
 
 // Use the Oak router
 const router = new Router()
@@ -42,7 +42,7 @@ router.get('/', (ctx, next) => {
 })
 ```
 
-## Todo
+## Features
 - [x] Basic functionality
-- [ ] Version support
+- [x] Version support
 - [ ] Partial reload support
