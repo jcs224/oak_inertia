@@ -25,7 +25,11 @@ new Inertia(app, `
 <body>
   @inertia
 </body>
-</html>`, Deno.env.get('optional_version_string'))
+</html>`, 
+// Optional function to determine Inertia version
+() => {
+  return Deno.env.get('OPTIONAL_INERTIA_VERSION')
+})
 
 // Use the Oak router
 const router = new Router()
