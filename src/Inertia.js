@@ -23,9 +23,6 @@ export default class Inertia {
   }
 
   render(component, payload) {
-    console.log('current: '+this.context.request.headers.get('X-Inertia-Version'))
-    console.log('new: '+this.version)
-
     const inertiaObject = {
       component,
       props: payload,
