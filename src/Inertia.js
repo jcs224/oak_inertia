@@ -1,16 +1,18 @@
 export default class Inertia {
-  constructor(oakApp, template, checkVersionFunction = () => {
+  constructor(template, checkVersionFunction = () => {
     return 'EwKHZIw0jAJtZu4ErKGp'
   }) {
     this.template = template
+    this.checkVersionFunction = checkVersionFunction
+  }
 
-    oakApp.use(async (ctx, next) => {
-
-      ctx.state.inertia = this
-      this.version = await checkVersionFunction.call()
+  initMiddleware() {
+    return async (ctx, next) => {
+      ctx.inertia = this
+      this.version = await this.checkVersionFunction.call()
       this.context = ctx
       await next()
-    })
+    }
   }
 
   _processTemplate(jsonPayload) {

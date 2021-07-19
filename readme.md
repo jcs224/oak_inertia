@@ -11,9 +11,9 @@ import { Inertia } from 'https://deno.land/x/oak_inertia@v0.1.0/mod.ts'
 // Instantiate Oak app
 const app = new Application()
 
-// Add Inertia middleware, and provide a template string. 
+// Instantiate Inertia middleware, and provide a template string. 
 // Put '@inertia' somewhere in the body, which will be replaced by the Inertia bootstrapping frontend code
-new Inertia(app, `
+const inertia = new Inertia(`
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,6 +31,9 @@ new Inertia(app, `
   return Deno.env.get('OPTIONAL_INERTIA_VERSION')
 })
 
+// Add Inertia middleware to global Oak middleware stack
+app.use(inertia.initMiddleware())
+
 // Use the Oak router
 const router = new Router()
 
@@ -42,7 +45,7 @@ router.get('/', (ctx, next) => {
     email: 'jdizzle@example.com'
   }
 
-  ctx.state.inertia.render(componentName, payloadObject)
+  ctx.inertia.render(componentName, payloadObject)
 })
 ```
 
