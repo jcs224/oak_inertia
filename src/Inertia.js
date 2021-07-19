@@ -4,6 +4,7 @@ export default class Inertia {
   }) {
     this.template = template
     this.checkVersionFunction = checkVersionFunction
+    this.shared = {}
   }
 
   initMiddleware() {
@@ -24,10 +25,15 @@ export default class Inertia {
     return parsedTemplate
   }
 
+  setShared(payload) {
+    this.shared = payload
+  }
+
   render(component, payload) {
+
     const inertiaObject = {
       component,
-      props: payload,
+      props: { ...this.shared, ...payload },
       url: this.context.request.url.pathname,
       version: this.context.request.headers.get('X-Inertia-Version') || this.version
     }
