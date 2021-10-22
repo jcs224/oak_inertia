@@ -1,4 +1,4 @@
-import Inertia from './src/Inertia.js'
+import Inertia from './src/Inertia.ts'
 
 export {
   Inertia

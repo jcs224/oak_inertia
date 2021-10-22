@@ -41,11 +41,11 @@ const router = new Router()
 router.get('/', (ctx, next) => {
   const componentName = 'HomePage'
   const payloadObject = {
-    username: 'johndoe'
+    username: 'johndoe',
     email: 'jdizzle@example.com'
   }
 
-  ctx.inertia.render(componentName, payloadObject)
+  ctx.state.inertia.render(componentName, payloadObject)
 })
 ```
 
