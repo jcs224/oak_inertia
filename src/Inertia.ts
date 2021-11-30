@@ -26,10 +26,13 @@ export default class Inertia {
     }
   }
 
-  _processTemplate(jsonPayload : Record<string, unknown>) {
+  _processTemplate(
+    jsonPayload : Record<string, unknown>, 
+    ssrString? : string | null
+  ) {
     const parsedTemplate = this.template.replace(
       '@inertia', 
-      /*html*/`<div id="app" data-page='${JSON.stringify(jsonPayload)}'></div>`
+      /*html*/`<div id="app" data-page='${JSON.stringify(jsonPayload)}'>${ ssrString || '' }</div>`
     )
 
     return parsedTemplate
@@ -39,7 +42,11 @@ export default class Inertia {
     this.shared = payload
   }
 
-  render(component : string, payload : Record<string, unknown>) {
+  render(
+    component : string, 
+    payload : Record<string, unknown>, 
+    ssrString? : string
+  ) {
     if (this.context) {
       const inertiaObject = {
         component,
@@ -66,7 +73,7 @@ export default class Inertia {
           this.context.response.headers.set('X-Inertia-Location', inertiaObject.url)
         } else {
           this.context.response.headers.set('Content-Type', 'text/html; charset=utf-8')
-          this.context.response.body = this._processTemplate(inertiaObject)
+          this.context.response.body = this._processTemplate(inertiaObject, ssrString || null)
         }
       }
     }

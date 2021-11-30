@@ -53,3 +53,31 @@ router.get('/', (ctx, next) => {
 - [x] Basic functionality
 - [x] Version support
 - [ ] Partial reload support
+- [x] (unofficial) SSR Support
+
+## SSR
+
+Because React and Deno both use similar JavaScript functionality, SSR on initial page load is pretty feasible to achieve!
+
+Full instructions aren't available yet on how to do this, but for now, here is an optional argument to inject custom server-side code into the initial template.
+
+## Example Oak route with SSR string
+```ts
+// Make sure you have React loaded in Deno
+import React from 'https://cdn.skypack.dev/react@17.0.2'
+import { renderToString } from 'https://cdn.skypack.dev/react-dom@17.0.2/cjs/react-dom-server.browser.production.min.js'
+
+// Import a server-side render-able component
+import ReactPage from './Pages/ReactPage.tsx'
+
+// Example Oak route with SSR string
+router.get('/', (ctx, next) => {
+  const componentName = 'HomePage'
+  const payloadObject = {
+    username: 'johndoe',
+    email: 'jdizzle@example.com'
+  }
+
+  ctx.state.inertia.render(componentName, payloadObject, renderToString(<ReactPage { ...payloadObject } />))
+})
+```
