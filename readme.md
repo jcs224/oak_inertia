@@ -61,7 +61,7 @@ Because React and Deno both use similar JavaScript functionality, SSR on initial
 
 Full instructions aren't available yet on how to do this, but for now, here is an optional argument to inject custom server-side code into the initial template.
 
-## Example Oak route with SSR string
+### Example Oak route with SSR string
 ```ts
 // Make sure you have React loaded in Deno
 import React from 'https://cdn.skypack.dev/react@17.0.2'
