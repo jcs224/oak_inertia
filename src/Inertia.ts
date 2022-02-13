@@ -1,4 +1,5 @@
 import { Context } from 'https://deno.land/x/oak@v10.2.0/context.ts'
+import { encode } from 'https://cdn.skypack.dev/html-entities@2.3.2'
 
 export default class Inertia {
   template: string
@@ -32,7 +33,7 @@ export default class Inertia {
   ) {
     const parsedTemplate = this.template.replace(
       '@inertia', 
-      /*html*/`<div id="app" data-page='${JSON.stringify(jsonPayload)}'>${ ssrString || '' }</div>`
+      /*html*/`<div id="app" data-page='${encode(JSON.stringify(jsonPayload))}'>${ ssrString || '' }</div>`
     )
 
     return parsedTemplate
