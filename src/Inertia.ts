@@ -1,4 +1,4 @@
-import { Context } from 'https://deno.land/x/oak@v10.0.0/context.ts'
+import { Context } from 'https://deno.land/x/oak@v10.2.0/context.ts'
 
 export default class Inertia {
   template: string
