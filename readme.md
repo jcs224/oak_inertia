@@ -5,15 +5,15 @@ This middleware can be used to easily enable Inertia.js client libraries to inte
 ## Setup
 
 ```js
-import { Application, Router } from 'https://deno.land/x/oak@v7.6.2/mod.ts'
-import { Inertia } from 'https://deno.land/x/oak_inertia@v0.1.0/mod.ts'
+import { Application, Router } from 'https://deno.land/x/oak/mod.ts'
+import { Inertia } from 'https://deno.land/x/oak_inertia/mod.ts'
 
 // Instantiate Oak app
 const app = new Application()
 
-// Instantiate Inertia middleware, and provide a template string. 
+// Provide a template string
 // Put '@inertia' somewhere in the body, which will be replaced by the Inertia bootstrapping frontend code
-const inertia = new Inertia(`
+Inertia.template = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,14 +25,15 @@ const inertia = new Inertia(`
 <body>
   @inertia
 </body>
-</html>`, 
+</html>`
+
 // Optional function to determine Inertia version
-() => {
+Inertia.checkVersion = () => {
   return Deno.env.get('OPTIONAL_INERTIA_VERSION')
-})
+}
 
 // Add Inertia middleware to global Oak middleware stack
-app.use(inertia.initMiddleware())
+app.use(Inertia.initMiddleware())
 
 // Use the Oak router
 const router = new Router()
@@ -48,12 +49,6 @@ router.get('/', (ctx, next) => {
   ctx.state.inertia.render(componentName, payloadObject)
 })
 ```
-
-## Features
-- [x] Basic functionality
-- [x] Version support
-- [ ] Partial reload support
-- [x] (unofficial) SSR Support
 
 ## SSR
 
