@@ -13,7 +13,7 @@ const app = new Application()
 
 // Provide a template string
 // Put '@inertia' somewhere in the body, which will be replaced by the Inertia bootstrapping frontend code
-Inertia.template = `
+const template = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,12 +28,12 @@ Inertia.template = `
 </html>`
 
 // Optional function to determine Inertia version
-Inertia.checkVersion = () => {
+const checkVersion = () => {
   return Deno.env.get('OPTIONAL_INERTIA_VERSION')
 }
 
 // Add Inertia middleware to global Oak middleware stack
-app.use(Inertia.initMiddleware())
+app.use(Inertia.initMiddleware(template, checkVersion))
 
 // Use the Oak router
 const router = new Router()

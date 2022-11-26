@@ -2,14 +2,11 @@ import { Context } from 'https://deno.land/x/oak@v10.6.0/context.ts'
 import { encode } from 'https://cdn.skypack.dev/html-entities@2.3.2'
 
 export default class Inertia {
-  static template : string
-  static checkVersion: () => string
-
-  static initMiddleware() {
+  static initMiddleware(template: string, checkVersion: () => string) {
     return async (ctx : Context, next : () => Promise<unknown>) => {
       var self = this
 
-      let version: string = await this.checkVersion.call(undefined) ?? 'default'
+      let version: string = await checkVersion.call(undefined) ?? 'default'
       let shared: Record<string, unknown>
 
       ctx.state.inertia = {
@@ -47,7 +44,7 @@ export default class Inertia {
               ctx.response.headers.set('X-Inertia-Location', inertiaObject.url)
             } else {
               ctx.response.headers.set('Content-Type', 'text/html; charset=utf-8')
-              ctx.response.body = self.processTemplate(inertiaObject, ssrString || null)
+              ctx.response.body = self.processTemplate(template, inertiaObject, ssrString || null)
             }
           }
         }
@@ -58,10 +55,11 @@ export default class Inertia {
   }
 
   private static processTemplate(
+    template: string,
     jsonPayload : Record<string, unknown>, 
     ssrString? : string | null
   ) {
-    const parsedTemplate = this.template.replace(
+    const parsedTemplate = template.replace(
       '@inertia', 
       /*html*/`<div id="app" data-page='${encode(JSON.stringify(jsonPayload))}'>${ ssrString || '' }</div>`
     )
